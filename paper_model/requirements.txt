@@ -1,0 +1,12 @@
+ase==3.25.0
+dscribe==2.1.1
+matplotlib==3.10.7
+numpy==1.23.2
+pandas==1.4.4
+scikit_learn==1.1.2
+tensorboardX==2.2
+tensorwatch==0.9.1
+timm==0.6.12
+torch==1.13.1
+tqdm==4.67.1
+yacs==0.1.8

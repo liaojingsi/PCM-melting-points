@@ -1,0 +1,69 @@
+Since a priori knowledge of new low-molecular PCMs in crystal phase (e.g., lattice type, space group, etc.) 
+may be unavailable, it is more appropriate for DNN-O to predict the melting points of new low-molecular 
+PCMs in liquid phase.
+
+The workflow can be abstracted into four steps as follow: 
+(i) Initialize the system with randomly distributed molecules
+(ii) perform MD simulations with positive ∆Tm
+(iii) collect the configurations generated from MD as input for DNN-O
+(iv) average the predicted melting points from DNN-O for all configurations as the final result.
+
+Data preprocess pipeline:
+file structure
+Raw data folder
+|-cry{temp}k
+|         |-dump{temp}k.dump
+|
+|-liq{temp}k
+|         |-dump{temp}k.dump
+|
+|-datapreprocess.py
+|
+|-patch_DNN_A.py
+(i) Make a Dataset folder (not raw data directory!) seperately
+(ii) Put data_preprocess.py under the raw data folder with dump file inside
+(iii) Modify the parameter inside ({compund_name}, {phase}, {meltingpoint}, {MDtemperature} and path off folder)and run the script
+(iv) if processing data of DNN_A, run patch_DNN_A.py after datapreprocess.py
+
+After processing, there will be lots of text file in the Dataset directory:
+Dataset directory
+|-{compund_name}
+|          |-{compund_name}_{phase}_{meltingpoint}_{MDtemperature}_{id}.txt
+|          |-...
+|          ...
+|
+|-crystal_id_list.txt
+|
+|-crystal_train.txt
+|
+|-crystal_test.txt
+|
+|-crystal_valid.txt
+|
+|-phase_id.txt
+
+Examples can be downloaded from https://figshare.com/articles/dataset/Melting_point_MD_DATASET/30519014.
+
+Example of prediction:
+(i) Download folder MPDATASET_735816 from https://figshare.com/articles/dataset/Melting_point_MD_DATASET/30519014.
+(ii) Copy the folder into paper_model folder and rename it as MPDATASET
+(iii) Use the command downside
+
+command:
+cd train
+python figsl.py --cfg ../yaml/DNN_O.yaml
+python figsl.py --cfg ../yaml/DNN_MS.yaml
+python figsl.py --cfg ../yaml/DNN_NC.yaml
+python figs.py --cfg ../yaml/DNN_A.yaml
+
+Results of the example dataset are in test folder and the result should be the same as Fig. S3.
+We also provide another two example MPDATASET, named as MPDATASET_1306598 and MPDATASET_1211300
+
+Training comand:
+cd train
+python train_A.py.py --cfg ../yaml/TRAIN_DNN_A.yaml
+python train_MS.py.py --cfg ../yaml/TRAIN_DNN_MS.yaml
+python train_O.py.py --cfg ../yaml/TRAIN_DNN_NC.yaml
+python train_O.py.py --cfg ../yaml/TRAIN_DNN_O.yaml
+python train_P.py.py --cfg ../yaml/TRAIN_DNN_P.yaml
+python train_CP.py.py --cfg ../yaml/TRAIN_DNN_CP.yaml
