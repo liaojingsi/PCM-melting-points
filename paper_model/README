@@ -5,8 +5,9 @@ PCMs in liquid phase.
 The workflow can be abstracted into four steps as follow: 
 (i) Initialize the system with randomly distributed molecules
 (ii) perform MD simulations with positive ∆Tm
-(iii) collect the configurations generated from MD as input for DNN-O
-(iv) average the predicted melting points from DNN-O for all configurations as the final result.
+(iii) collect the configurations generated from MD as input for DNN-O.
+(iv) add the predicted ∆T_m from DNN-O on the recorded MD temperature to get the predicted melting points 
+(v) average the predicted melting points for all configurations as the final result
 
 Data preprocess pipeline:
 file structure
